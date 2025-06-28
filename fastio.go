@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"os"
 	"reflect"
 	"strings"
+	"unsafe"
 )
 
 func main() {
@@ -44,6 +46,24 @@ func print(params ...any) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func BufferedWrite(w io.Writer, s string) error {
+	bw := bufio.NewWriterSize(w, len(s))
+	_, err := bw.WriteString(s)
+	if err != nil {
+		return err
+	}
+	return bw.Flush()
+}
+
+func WriteStringFast(w io.Writer, s string) error {
+	buf := unsafe.Slice(unsafe.StringData(s), len(s))
+	_, err := w.Write(buf)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func isSepCase(args ...any) (bool, any, string) {
