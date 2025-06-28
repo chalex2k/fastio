@@ -6,6 +6,7 @@ linters:
   disable:
     - forbidigo
     - paralleltest
+    - gochecknoinits
   # All available settings of specific linters.
   settings:
     # See the dedicated "linters.settings" documentation section.
