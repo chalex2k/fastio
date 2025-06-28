@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestPrint(t *testing.T) {
+func TestPrintSingleArgument(t *testing.T) {
 	testCases := []struct {
 		name     string
 		input    any
@@ -29,6 +29,30 @@ func TestPrint(t *testing.T) {
 			outputStream = out
 
 			print(testCase.input)
+
+			if out.String() != testCase.expected {
+				t.Errorf("print(%d) = %q, want %q", testCase.input, out, testCase.expected)
+			}
+		})
+	}
+}
+
+func TestPrint(t *testing.T) {
+	testCases := []struct {
+		name     string
+		input    []any
+		expected string
+	}{
+		{"Multiple ints", []any{1, -4, 0, 155}, "1 -4 0 155\n"},
+		{"Multiple different", []any{1, "str", 'x', '0', 1.5}, "1 str x 0 1.5\n"},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			out := new(bytes.Buffer)
+			outputStream = out
+
+			print(testCase.input...)
 
 			if out.String() != testCase.expected {
 				t.Errorf("print(%d) = %q, want %q", testCase.input, out, testCase.expected)

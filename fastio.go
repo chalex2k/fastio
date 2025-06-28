@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -23,22 +24,18 @@ func init() {
 
 //nolint:revive,predeclared
 func print(a ...any) {
+	var res []string
+
 	for _, v := range a {
 		switch val := v.(type) {
 		case rune:
-			_, err := fmt.Fprintf(outputStream, "%c", val)
-			if err != nil {
-				panic(err)
-			}
+			res = append(res, fmt.Sprintf("%c", val))
 		default:
-			_, err := fmt.Fprint(outputStream, val)
-			if err != nil {
-				panic(err)
-			}
+			res = append(res, fmt.Sprintf("%v", val))
 		}
 	}
 
-	_, err := fmt.Fprintln(outputStream) // ln
+	_, err := fmt.Fprintln(outputStream, strings.Join(res, " "))
 	if err != nil {
 		panic(err)
 	}
