@@ -1,0 +1,34 @@
+# See the dedicated "version" documentation section.
+version: "2"
+linters:
+  default: all
+  # Disable specific linter.
+  disable:
+    - forbidigo
+    - paralleltest
+  # All available settings of specific linters.
+  settings:
+    # See the dedicated "linters.settings" documentation section.
+    option: value
+  # Defines a set of rules to ignore issues.
+  # It does not skip the analysis, and so does not ignore "typecheck" errors.
+  exclusions:
+    # Log a warning if an exclusion rule is unused.
+    # Default: false
+    warn-unused: true
+    # Predefined exclusion rules.
+    # Default: []
+    presets:
+      - comments
+      - std-error-handling
+      - common-false-positives
+      - legacy
+formatters:
+  # Enable specific formatter.
+  # Default: [] (uses standard Go formatting)
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+    - golines
