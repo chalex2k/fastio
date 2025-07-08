@@ -1,22 +1,32 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
 func main() {
-	print(1)
+	x := ii()
+	print(x)
 }
 
 //nolint:gochecknoglobals
-var outputStream io.Writer
+var (
+	outputStream io.Writer
+	inputStream  io.Reader
+	scanner      *bufio.Scanner
+)
 
 func initStdStreams() {
 	outputStream = os.Stdout
+	inputStream = os.Stdin
+	scanner = bufio.NewScanner(inputStream)
 }
 
 func init() {
@@ -86,4 +96,24 @@ func processArgs(args any) []string {
 	}
 
 	return res
+}
+
+func input() string {
+	if scanner.Scan() {
+		return scanner.Text()
+	} else if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	log.Fatal("not scan and not err")
+
+	return ""
+}
+
+func ii() int {
+	s := input()
+	s = strings.TrimSpace(s)
+	num, _ := strconv.Atoi(s)
+
+	return num
 }

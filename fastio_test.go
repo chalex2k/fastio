@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
+	"strings"
 	"testing"
 )
 
@@ -106,6 +108,34 @@ func TestPrintSliceWithSep(t *testing.T) {
 
 			if out.String() != testCase.expected {
 				t.Errorf("print(%d) = %q, want %q", testCase.input, out, testCase.expected)
+			}
+		})
+	}
+}
+
+func TestInputInt(t *testing.T) {
+	testCases := []struct {
+		name     string
+		stdin    string
+		expected int
+	}{
+		{"Positive", "5", 5},
+		{"Positive with new line", "5\n", 5},
+		{"Positive with new line and spaces", " 5 \n", 5},
+		{"Negative", "-999", -999},
+		{"Zero", "0", 0},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			in := strings.NewReader(testCase.stdin)
+			inputStream = in
+			scanner = bufio.NewScanner(inputStream)
+
+			out := ii()
+
+			if out != testCase.expected {
+				t.Errorf("%v: expected %v, found %v", testCase.stdin, testCase.expected, out)
 			}
 		})
 	}
