@@ -140,3 +140,35 @@ func TestInputInt(t *testing.T) {
 		})
 	}
 }
+
+func TestListInputInt(t *testing.T) {
+	testCases := []struct {
+		name     string
+		stdin    string
+		expected []int
+	}{
+		{"Usual list", "5 0 -4 1111111", []int{5, 0, -4, 1111111}},
+		{"List with new line", "5 0 -4 1111111\n", []int{5, 0, -4, 1111111}},
+		{"Positive with new line and spaces", " 5  0 -4 1111111  \n", []int{5, 0, -4, 1111111}},
+		{"One item in list", "-999", []int{-999}},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			in := strings.NewReader(testCase.stdin)
+			inputStream = in
+			scanner = bufio.NewScanner(inputStream)
+
+			out := lii()
+			if len(out) != len(testCase.expected) {
+				t.Errorf("%v: expected %v, got %v", testCase.stdin, testCase.expected, out)
+			}
+
+			for i := range out {
+				if out[i] != testCase.expected[i] {
+					t.Errorf("%v: expected %v, found %v", testCase.stdin, testCase.expected, out)
+				}
+			}
+		})
+	}
+}

@@ -14,6 +14,9 @@ import (
 func main() {
 	x := ii()
 	print(x)
+
+	arr := lii()
+	print(arr)
 }
 
 //nolint:gochecknoglobals
@@ -116,4 +119,16 @@ func ii() int {
 	num, _ := strconv.Atoi(s)
 
 	return num
+}
+
+func lii() []int {
+	parts := strings.Fields(input())
+	numbers := make([]int, len(parts))
+
+	for i, part := range parts {
+		num, _ := strconv.Atoi(part)
+		numbers[i] = num
+	}
+
+	return numbers
 }
