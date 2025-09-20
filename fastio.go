@@ -17,6 +17,9 @@ func main() {
 
 	arr := lii()
 	print(arr)
+
+	n, m := i2()
+	print(n, m)
 }
 
 //nolint:gochecknoglobals
@@ -104,7 +107,10 @@ func processArgs(args any) []string {
 func input() string {
 	if scanner.Scan() {
 		return scanner.Text()
-	} else if err := scanner.Err(); err != nil {
+	}
+
+	err := scanner.Err()
+	if err != nil {
 		log.Fatal(err)
 	}
 
@@ -131,4 +137,10 @@ func lii() []int {
 	}
 
 	return numbers
+}
+
+func i2() (int, int) {
+	arr := lii()
+
+	return arr[0], arr[1]
 }

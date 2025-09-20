@@ -172,3 +172,35 @@ func TestListInputInt(t *testing.T) {
 		})
 	}
 }
+
+func TestInput2Ints(t *testing.T) {
+	testCases := []struct {
+		name      string
+		stdin     string
+		expected1 int
+		expected2 int
+	}{
+		{"Both positive", "3 6", 3, 6},
+		{"Both negative", "-3000 -1", -3000, -1},
+		{"Both zeros", "0 0", 0, 0},
+	}
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			in := strings.NewReader(testCase.stdin)
+			inputStream = in
+			scanner = bufio.NewScanner(inputStream)
+
+			out1, out2 := i2()
+
+			if out1 != testCase.expected1 {
+				t.Errorf("first number error. %v: expected %v, got %v",
+					testCase.stdin, testCase.expected1, out1)
+			}
+
+			if out2 != testCase.expected2 {
+				t.Errorf("second number error. %v: expected %v, got %v",
+					testCase.stdin, testCase.expected2, out2)
+			}
+		})
+	}
+}
