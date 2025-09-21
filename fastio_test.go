@@ -3,6 +3,8 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"math/rand"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -170,6 +172,45 @@ func TestListInputInt(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestListInputIntManyNums(t *testing.T) {
+	t.Skip()
+
+	inputList := make([]int, 200_000)
+
+	for i := range inputList {
+		// #nosec G404
+		inputList[i] = rand.Int()
+	}
+
+	inputListStr := make([]string, len(inputList))
+
+	for i := range inputList {
+		inputListStr[i] = strconv.Itoa(inputList[i])
+	}
+
+	inputLine := strings.Join(inputListStr, " ")
+
+	in := strings.NewReader(inputLine)
+	inputStream = in
+	scanner = bufio.NewScanner(inputStream)
+	// Increase the buffer size (e.g., 1MB)
+	// maxCapacity := 1024 * 1024 * 50 // 1MB
+	// buf := make([]byte, maxCapacity)
+	// scanner.Buffer(buf, maxCapacity)
+
+	out := lii()
+
+	if len(out) != len(inputList) {
+		t.Errorf("%v: expected %v, got %v", inputListStr, inputList, out)
+	}
+
+	for i := range out {
+		if out[i] != inputList[i] {
+			t.Errorf("%v: expected %v, found %v", inputListStr, inputList, out)
+		}
 	}
 }
 
