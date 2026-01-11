@@ -84,24 +84,23 @@ func isSepCase(args ...any) (bool, any, string) {
 }
 
 func processArgs(args any) []string {
-	var res []string
-
 	val := reflect.ValueOf(args)
 
 	if val.Kind() == reflect.Slice || val.Kind() == reflect.Array {
+		res := make([]string, 0, val.Len())
 		for i := range val.Len() {
 			res = append(res, processArgs(val.Index(i).Interface())...)
 		}
-	} else {
-		switch val := args.(type) {
-		case rune:
-			res = append(res, fmt.Sprintf("%c", val))
-		default:
-			res = append(res, fmt.Sprintf("%v", val))
-		}
+
+		return res
 	}
 
-	return res
+	switch val := args.(type) {
+	case rune:
+		return []string{fmt.Sprintf("%c", val)}
+	default:
+		return []string{fmt.Sprintf("%v", val)}
+	}
 }
 
 func input() string {

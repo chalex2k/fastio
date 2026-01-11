@@ -245,3 +245,18 @@ func TestInput2Ints(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkPrint(b *testing.B) {
+	out := new(bytes.Buffer)
+	outputStream = out
+	arg := make([]int, 1_000_000)
+
+	for i := range arg {
+		// #nosec G404
+		arg[i] = rand.Int()
+	}
+
+	for range b.N {
+		print(arg, "-|-")
+	}
+}
